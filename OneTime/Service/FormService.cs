@@ -84,6 +84,9 @@ public class FormService(AppDbcontext dbcontext) : IFormService
     {
         var responses = await GetAllResponsesAsync();
 
+        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+
         using var package = new ExcelPackage();
         var worksheet = package.Workbook.Worksheets.Add("Form Responses");
 

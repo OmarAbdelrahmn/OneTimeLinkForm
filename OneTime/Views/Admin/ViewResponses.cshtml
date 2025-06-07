@@ -33,7 +33,9 @@
                         {
                             <tr>
                                 <td>@response.TUserName</td>
-                                <td>@response.IsWorking</td>
+                                <td>
+                                    @(response.IsWorking ? "✅ Yes" : "❌ No")
+                                </td>
                                 <td>@response.SubmittedAt.ToString("yyyy-MM-dd HH:mm")</td>
                             </tr>
                         }

@@ -22,7 +22,11 @@
 
                     <div class="col-md-6 mb-3">
                         <label asp-for="IsWorking" class="form-label">Working Status *</label>
-                        <input asp-for="IsWorking" class="form-control" placeholder="Are you working?">
+                        <select asp-for="IsWorking" class="form-select">
+                            <option value="">-- Select Working Status --</option>
+                            <option value="true">Yes, I am working</option>
+                            <option value="false">No, I am not working</option>
+                        </select>
                         <span asp-validation-for="IsWorking" class="text-danger"></span>
                     </div>
                 </div>
