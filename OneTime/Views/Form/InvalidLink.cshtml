@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Invalid Link";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="text-center form-container">
+            <div class="mb-4">
+                <i class="display-1 text-danger">⚠️</i>
+            </div>
+            <h2 class="text-danger mb-3">Invalid or Expired Link</h2>
+            <p class="lead">This link is either invalid, has already been used, or has expired.</p>
+
+            <div class="alert alert-warning">
+                <strong>Possible reasons:</strong>
+                <ul class="list-unstyled mb-0 mt-2">
+                    <li>• Link has already been used once</li>
+                    <li>• Link has expired (24 hours limit)</li>
+                    <li>• Link is malformed or incorrect</li>
+                </ul>
+            </div>
+
+            <p class="text-muted">Please contact the administrator for a new link.</p>
+        </div>
+    </div>
+</div>

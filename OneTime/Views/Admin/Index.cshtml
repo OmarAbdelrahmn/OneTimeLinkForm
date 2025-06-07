@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="form-container">
+            <h2 class="text-center mb-4">📋 Admin Panel</h2>
+
+            <div class="text-center mb-4">
+                <form asp-action="GenerateLink" method="post">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        🔗 Generate One-Time Link
+                    </button>
+                </form>
+
+                <form asp-action="CleanupExpiredLinks" method="post" class="mt-2">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">
+                        🗑️ Cleanup Expired Links
+                    </button>
+                </form>
+            </div>
+
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Message"]
+                </div>
+            }
+
+            @if (ViewBag.GeneratedLink != null)
+            {
+                <div class="alert alert-custom">
+                    <h5>✅ One-Time Link Generated!</h5>
+                    <p><strong>Link:</strong></p>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" value="@ViewBag.GeneratedLink" id="generatedLink" readonly>
+                        <button class="btn btn-outline-light" type="button" onclick="copyToClipboard()">
+                            📋 Copy
+                        </button>
+                    </div>
+                    <small>⚠️ This link can only be used once and expires in 24 hours.</small>
+                </div>
+            }
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <a href="@Url.Action("ViewResponses")" class="btn btn-success w-100">
+                        📊 View All Responses
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="@Url.Action("ExportToExcel")" class="btn btn-info w-100">
+                        📄 Export to Excel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard() {
+        const linkField = document.getElementById('generatedLink');
+        linkField.select();
+        linkField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(linkField.value);
+
+        const button = document.querySelector('button[onclick="copyToClipboard()"]');
+        const originalText = button.innerHTML;
+        button.innerHTML = '✅ Copied!';
+        setTimeout(() => {
+            button.innerHTML = originalText;
+        }, 2000);
+    }
+</script>

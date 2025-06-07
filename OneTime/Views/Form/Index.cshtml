@@ -1,0 +1,39 @@
+﻿@model OneTime.FormResponse
+@{
+    ViewData["Title"] = "Contact Form";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="form-container">
+            <h2 class="text-center mb-4">📝 Contact Information Form</h2>
+            <p class="text-center text-muted mb-4">Please fill out all required fields below.</p>
+
+            <form asp-action="Index" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="TUserName" class="form-label">*</label>
+                        <input asp-for="TUserName" class="form-control" placeholder="Enter your Telegram Name>
+                        <span asp-validation-for="TUserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="IsWorking" class="form-label">*</label>
+                        <input asp-for="IsWorking" class="form-control" placeholder="Are you working??">
+                        <span asp-validation-for="IsWorking" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                        ✉️ Submit Form
+                    </button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <small class="text-muted">* Required fields</small>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

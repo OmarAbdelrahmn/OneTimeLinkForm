@@ -1,0 +1,48 @@
+﻿@model List<OneTime.FormResponse>
+@{
+    ViewData["Title"] = "Form Responses";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📊 Form Responses (@Model.Count)</h2>
+            <div>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">← Back to Admin</a>
+                <a href="@Url.Action("ExportToExcel")" class="btn btn-success">📄 Export Excel</a>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>TeleName</th>
+                            <th>IsWorking</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var response in Model.OrderByDescending(r => r.SubmittedAt))
+                        {
+                            <tr>
+                                <td>@response.TUserName</td>
+                                <td>@response.IsWorking</td>
+                                <td>@response.SubmittedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                <h4>📝 No responses yet</h4>
+                <p>Generate a one-time link and share it to start collecting responses.</p>
+            </div>
+        }
+    </div>
+</div>
