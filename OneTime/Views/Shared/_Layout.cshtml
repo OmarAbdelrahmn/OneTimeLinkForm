@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    @RenderSection("Scripts", required: false)
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - One Time Form</title>
@@ -21,18 +22,70 @@
             background: linear-gradient(45deg, #007bff, #0056b3);
             color: white;
         }
+
+        .navbar-nav .nav-link {
+            margin: 0 10px;
+        }
+
+        .dropdown-menu {
+            background-color: #0056b3;
+        }
+
+        .dropdown-item {
+            color: white;
+        }
+
+            .dropdown-item:hover {
+                background-color: #004085;
+                color: white;
+            }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="/">One Time Form System</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">🏠 One Time Form System</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">🏠 Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Form")">📝 Fill Form</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                            ⚙️ Admin
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "Admin")">📋 Admin Panel</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ViewResponses", "Admin")">📊 View Responses</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ExportToExcel", "Admin")">📄 Export Excel</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Privacy", "Home")">🔒 Privacy</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
     <main class="container">
         @RenderBody()
     </main>
+
+    <footer class="bg-light text-center py-3 mt-5">
+        <div class="container">
+            <small class="text-muted">
+                © 2025 One Time Form System |
+            </small>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

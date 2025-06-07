@@ -3,7 +3,7 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="text-center form-container">
             <div class="mb-4">
                 <i class="display-1 text-danger">⚠️</i>
@@ -12,15 +12,37 @@
             <p class="lead">This link is either invalid, has already been used, or has expired.</p>
 
             <div class="alert alert-warning">
-                <strong>Possible reasons:</strong>
+                <strong>📝 Possible reasons:</strong>
                 <ul class="list-unstyled mb-0 mt-2">
-                    <li>• Link has already been used once</li>
-                    <li>• Link has expired (24 hours limit)</li>
-                    <li>• Link is malformed or incorrect</li>
+                    <li>🔒 Link has already been used once</li>
+                    <li>⏰ Link has expired (24 hours limit)</li>
+                    <li>🔗 Link is malformed or incorrect</li>
+                    <li>📱 Link was accessed from a different device/browser</li>
                 </ul>
             </div>
 
-            <p class="text-muted">Please contact the administrator for a new link.</p>
+            <div class="alert alert-info">
+                <strong>💡 What to do next:</strong>
+                <p class="mb-2">Contact the administrator to request a new one-time link.</p>
+                <p class="mb-0">Each link can only be used once for security reasons.</p>
+            </div>
+
+            <div class="mt-4">
+                <div class="btn-group" role="group">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                        🏠 Return to Home
+                    </a>
+                    <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary">
+                        ⚙️ Admin Panel
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <small class="text-muted">
+                    Need help? Visit the <a href="@Url.Action("Index", "Admin")">Admin Panel</a> to generate a new link.
+                </small>
+            </div>
         </div>
     </div>
 </div>

@@ -16,7 +16,8 @@ public class AdminController(IFormService service) : Controller
     {
         var token = await service.GenerateOneTimeLinkAsync();
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
-        var fullLink = $"{baseUrl}/Form/Index/{token}";
+        // FIXED: Use query string format instead of route parameter
+        var fullLink = $"{baseUrl}/Form/Index?token={token}";
 
         ViewBag.GeneratedLink = fullLink;
         return View("Index");
@@ -44,5 +45,3 @@ public class AdminController(IFormService service) : Controller
         return RedirectToAction("Index");
     }
 }
-
-

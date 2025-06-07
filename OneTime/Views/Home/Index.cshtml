@@ -3,9 +3,61 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">🏠 Welcome to One Time Form System</h1>
+    <p class="lead text-muted">Secure, one-time use form system for collecting information</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="display-1 mb-3">📝</div>
+                <h4 class="card-title">Fill Contact Form</h4>
+                <p class="card-text">Use a one-time link to submit your information securely.</p>
+                <a href="@Url.Action("Index", "Form")" class="btn btn-primary">
+                    📝 Fill Form
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="display-1 mb-3">⚙️</div>
+                <h4 class="card-title">Admin Panel</h4>
+                <p class="card-text">Generate links, view responses, and manage the system.</p>
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary">
+                    ⚙️ Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h5>🔒 How it works:</h5>
+            <ul class="mb-0">
+                <li><strong>Admin generates</strong> a one-time use link</li>
+                <li><strong>Link is shared</strong> with the person who needs to fill the form</li>
+                <li><strong>Form is filled</strong> and submitted once</li>
+                <li><strong>Link expires</strong> after use or 24 hours</li>
+                <li><strong>Admin can view</strong> all responses and export to Excel</li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div class="text-center mt-4">
-    @Html.ActionLink("✍️ Fill Contact Form", "Index", "Form", null, new { @class = "btn btn-primary" })
+    <div class="btn-group" role="group">
+        <a href="@Url.Action("ViewResponses", "Admin")" class="btn btn-outline-success">
+            📊 View All Responses
+        </a>
+        <a href="@Url.Action("ExportToExcel", "Admin")" class="btn btn-outline-info">
+            📄 Export to Excel
+        </a>
+
+    </div>
 </div>

@@ -8,7 +8,6 @@ namespace OneTime.Service;
 
 public class FormService(AppDbcontext dbcontext) : IFormService
 {
-
     private static readonly ConcurrentDictionary<string, OneTimeLink> _activeLinks = new();
     private static readonly ConcurrentBag<FormResponse> _formResponses = [];
     private readonly AppDbcontext dbcontext = dbcontext;
@@ -22,8 +21,8 @@ public class FormService(AppDbcontext dbcontext) : IFormService
         var link = new OneTimeLink
         {
             Token = token,
-            CreatedAt = DateTime.Now,
-            ExpiresAt = DateTime.Now.AddHours(24), // Link expires in 24 hours
+            CreatedAt = DateTime.UtcNow, // Use UTC
+            ExpiresAt = DateTime.UtcNow.AddHours(24), // Link expires in 24 hours
             IsUsed = false
         };
 
@@ -33,6 +32,22 @@ public class FormService(AppDbcontext dbcontext) : IFormService
         return token;
     }
 
+    // NEW METHOD: Just validate without consuming the token
+    public async Task<bool> ValidateTokenAsync(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+            return false;
+
+        var link = await dbcontext.OneTimeLinks
+            .FirstOrDefaultAsync(l => l.Token == token);
+
+        if (link == null || link.IsUsed || DateTime.UtcNow > link.ExpiresAt)
+            return false;
+
+        return true;
+    }
+
+    // MODIFIED METHOD: Only consume the token when form is successfully submitted
     public async Task<bool> ValidateAndUseTokenAsync(string token)
     {
         if (string.IsNullOrEmpty(token))
@@ -41,7 +56,7 @@ public class FormService(AppDbcontext dbcontext) : IFormService
         var link = await dbcontext.OneTimeLinks
             .FirstOrDefaultAsync(l => l.Token == token);
 
-        if (link == null || link.IsUsed || DateTime.Now > link.ExpiresAt)
+        if (link == null || link.IsUsed || DateTime.UtcNow > link.ExpiresAt)
             return false;
 
         // Mark as used and save
@@ -53,6 +68,7 @@ public class FormService(AppDbcontext dbcontext) : IFormService
 
     public async Task SaveFormResponseAsync(FormResponse response)
     {
+        response.SubmittedAt = DateTime.UtcNow; // Set submission time
         dbcontext.FormResponses.Add(response);
         await dbcontext.SaveChangesAsync();
     }
@@ -66,7 +82,6 @@ public class FormService(AppDbcontext dbcontext) : IFormService
 
     public async Task<byte[]> GenerateExcelReportAsync()
     {
-
         var responses = await GetAllResponsesAsync();
 
         using var package = new ExcelPackage();
@@ -74,15 +89,12 @@ public class FormService(AppDbcontext dbcontext) : IFormService
 
         // Headers
         worksheet.Cells[1, 1].Value = "ID";
-        worksheet.Cells[1, 2].Value = "Full Name";
-        worksheet.Cells[1, 3].Value = "Email";
-        worksheet.Cells[1, 4].Value = "Phone";
-        worksheet.Cells[1, 5].Value = "Company";
-        worksheet.Cells[1, 6].Value = "Message";
-        worksheet.Cells[1, 7].Value = "Submitted At";
+        worksheet.Cells[1, 2].Value = "Telegram Name";
+        worksheet.Cells[1, 3].Value = "Is Working";
+        worksheet.Cells[1, 4].Value = "Submitted At";
 
         // Style headers
-        using (var range = worksheet.Cells[1, 1, 1, 7])
+        using (var range = worksheet.Cells[1, 1, 1, 4])
         {
             range.Style.Font.Bold = true;
             range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
@@ -98,7 +110,7 @@ public class FormService(AppDbcontext dbcontext) : IFormService
             worksheet.Cells[row, 1].Value = response.Id;
             worksheet.Cells[row, 2].Value = response.TUserName;
             worksheet.Cells[row, 3].Value = response.IsWorking;
-            worksheet.Cells[row, 7].Value = response.SubmittedAt.ToString("yyyy-MM-dd HH:mm:ss");
+            worksheet.Cells[row, 4].Value = response.SubmittedAt.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         // Auto-fit columns
@@ -110,7 +122,7 @@ public class FormService(AppDbcontext dbcontext) : IFormService
     public async Task CleanupExpiredLinksAsync()
     {
         var expiredLinks = await dbcontext.OneTimeLinks
-            .Where(l => DateTime.Now > l.ExpiresAt || l.IsUsed)
+            .Where(l => DateTime.UtcNow > l.ExpiresAt || l.IsUsed)
             .ToListAsync();
 
         if (expiredLinks.Any())
@@ -120,4 +132,3 @@ public class FormService(AppDbcontext dbcontext) : IFormService
         }
     }
 }
-

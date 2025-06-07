@@ -12,8 +12,23 @@
             <p class="lead">Your form has been successfully submitted.</p>
             <p class="text-muted">We have received your information and will get back to you if needed.</p>
 
+            <div class="alert alert-success mt-4">
+                <h6>📋 What happens next?</h6>
+                <ul class="list-unstyled mb-0">
+                    <li>✓ Your response has been recorded</li>
+                    <li>✓ The form link has been deactivated</li>
+                    <li>✓ An admin will review your submission</li>
+                </ul>
+            </div>
+
             <div class="mt-4">
-                <small class="text-muted">You can now close this page.</small>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                    🏠 Return to Home
+                </a>
+            </div>
+
+            <div class="mt-3">
+                <small class="text-muted">You can now close this page safely.</small>
             </div>
         </div>
     </div>

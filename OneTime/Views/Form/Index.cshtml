@@ -10,16 +10,19 @@
             <p class="text-center text-muted mb-4">Please fill out all required fields below.</p>
 
             <form asp-action="Index" method="post">
+                <!-- Hidden field to preserve the token -->
+                <input type="hidden" name="token" value="@ViewBag.Token" />
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label asp-for="TUserName" class="form-label">*</label>
-                        <input asp-for="TUserName" class="form-control" placeholder="Enter your Telegram Name>
+                        <label asp-for="TUserName" class="form-label">Telegram Name *</label>
+                        <input asp-for="TUserName" class="form-control" placeholder="Enter your Telegram Name">
                         <span asp-validation-for="TUserName" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label asp-for="IsWorking" class="form-label">*</label>
-                        <input asp-for="IsWorking" class="form-control" placeholder="Are you working??">
+                        <label asp-for="IsWorking" class="form-label">Working Status *</label>
+                        <input asp-for="IsWorking" class="form-control" placeholder="Are you working?">
                         <span asp-validation-for="IsWorking" class="text-danger"></span>
                     </div>
                 </div>
@@ -37,3 +40,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
